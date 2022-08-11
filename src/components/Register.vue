@@ -52,22 +52,15 @@ export default {
     };
   },
   methods: {
-    handleSubmit() {
+    async handleSubmit() {
       const data = {
         name: this.username,
         email: this.email,
         password: this.password,
       };
-      console.log(data);
 
-      axios
-        .post("http://localhost:3001/auth/signup", data)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      const response = await axios.post("auth/signup", data);
+      console.log(response);
     },
   },
 };

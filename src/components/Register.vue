@@ -59,8 +59,8 @@ export default {
         password: this.password,
       };
 
-      const response = await axios.post("auth/signup", data);
-      console.log(response);
+      await axios.post("auth/signup", data);
+      this.$router.push("/login");
     },
   },
 };

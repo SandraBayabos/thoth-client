@@ -2,15 +2,25 @@
   <div id="green-bg"></div>
   <div class="form-container">
     <div id="login-form" class="shadow-sm">
-      <form>
+      <form @submit.prevent="handleSubmit">
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" class="form-control" placeholder="Email" />
+          <input
+            type="email"
+            class="form-control"
+            placeholder="Email"
+            v-model="email"
+          />
         </div>
 
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" class="form-control" placeholder="Password" />
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Password"
+            v-model="password"
+          />
         </div>
 
         <button>Login</button>
@@ -20,8 +30,25 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "LoginForm",
+  data() {
+    return {
+      email: "",
+      password: "",
+    };
+  },
+  methods: {
+    async handleSubmit() {
+      const response = await axios.post("auth/login", {
+        email: this.email,
+        password: this.password,
+      });
+      
+      localStorage.setItem("jwtToken", response.data.token);
+    },
+  },
 };
 </script>
 

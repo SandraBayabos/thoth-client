@@ -45,8 +45,9 @@ export default {
         email: this.email,
         password: this.password,
       });
-      
+
       localStorage.setItem("jwtToken", response.data.token);
+      this.$router.push("/home");
     },
   },
 };

@@ -17,7 +17,7 @@ export default {
 
 <style>
 .container-fluid {
-  height: calc(100vh - 50px);
+  /* height: calc(100vh - 50px); */
   background-color: rgb(204, 191, 174);
 }
 

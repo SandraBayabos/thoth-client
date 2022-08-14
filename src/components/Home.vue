@@ -10,8 +10,10 @@
         </div>
       </div>
     </div>
-    <button class="new-task-btn">Create New Task</button>
-    <div class="task-form">
+    <button @click="showModal = true" class="new-task-btn">
+      Create New Task
+    </button>
+    <div v-if="showModal" class="task-form">
       <form>
         <div class="form-group">
           <label for="title"></label>
@@ -49,6 +51,7 @@
         </div>
         <div class="btn-container">
           <button type="submit" @click="handleSubmit">Submit</button>
+          <button @click="showModal = false">Close</button>
         </div>
       </form>
     </div>
@@ -67,9 +70,11 @@ export default {
       name: "",
       dueDate: "",
       tasks: [],
+      showModal: false,
     };
   },
   async created() {
+    this.showModal = false;
     await axios
       .get("auth/auto_login", {})
       .then((response) => {
@@ -114,7 +119,7 @@ export default {
         tags: this.tags,
       });
 
-      this.tasks = [...this.tasks, response.data.task];
+      this.tasks = [response.data.task, ...this.tasks];
     },
   },
 };

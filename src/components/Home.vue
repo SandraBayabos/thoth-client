@@ -1,5 +1,5 @@
 <template>
-  <div class="body">
+  <div class="body pt-3">
     <div class="header">
       <h3>Account Details:</h3>
       <span class="task-length">| {{ tasks.length }} Tasks</span>
@@ -66,8 +66,10 @@
           </div>
         </div>
         <div class="btn-container">
-          <button type="submit" @click="handleSubmit">Submit</button>
-          <button @click="showModal = false">Close</button>
+          <button class="create" type="submit" @click="handleSubmit">
+            Create
+          </button>
+          <button class="close-modal" @click="showModal = false">Close</button>
         </div>
       </form>
     </div>
@@ -196,13 +198,20 @@ h3 {
 }
 
 .card:hover {
-  transform: scale(1.1);
+  transform: scale(1.02);
 }
 
 .new-task-btn {
   position: fixed;
   bottom: 20px;
   right: 20px;
+  border: none;
+  background-color: rgb(81, 90, 80);
+  padding: 15px 25px 15px 25px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: rgb(237, 238, 223);
+  border-radius: 10px;
 }
 
 .task-form {
@@ -260,5 +269,30 @@ ul {
 
 .completed:hover {
   transform: scale(1);
+}
+
+.btn-container {
+  display: flex;
+  justify-content: end;
+}
+
+.btn-container > button {
+  margin-right: 10px;
+  margin-left: 10px;
+  border: none;
+  outline: none;
+  border-radius: 50px;
+  padding: 5px 20px 5px 20px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: rgb(237, 238, 223);
+}
+
+.btn-container > .create {
+  background-color: rgb(81, 90, 80);
+}
+
+.btn-container > .close-modal {
+  background-color: rgb(230, 114, 106);
 }
 </style>

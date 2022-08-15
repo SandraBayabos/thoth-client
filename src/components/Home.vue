@@ -1,12 +1,28 @@
 <template>
   <div class="body">
-    <h3>Account Details:</h3>
+    <div class="header">
+      <h3>Account Details:</h3>
+      <span class="task-length">| {{ tasks.length }} Tasks</span>
+    </div>
 
     <div v-for="task in this.tasks" v-bind:key="task.id">
       <div class="task-row">
-        <span>Due {{ task.due_date }}</span>
-        <div class="card">
+        <span v-if="task.completed === false"
+          >Due {{ formatDate(task.due_date) }}</span
+        >
+        <span v-else>Completed</span>
+        <div
+          v-bind:id="task.id"
+          @click="handleStatus"
+          class="card"
+          :class="task.completed ? 'completed' : ''"
+        >
           <p>{{ task.name }}</p>
+          <ul class="tags">
+            <li v-for="(tag, index) in task.tag_array" :key="index" class="tag">
+              {{ tag }}
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -84,6 +100,7 @@ export default {
           .get("task/")
           .then((response) => {
             this.tasks = response.data.data;
+            console.log(response.data.data);
           })
           .catch((error) => {
             console.log(error);
@@ -121,13 +138,46 @@ export default {
 
       this.tasks = [response.data.task, ...this.tasks];
     },
+    async handleStatus(e) {
+      const id = e.target.id;
+      const response = await axios.put(`/task/update/${id}`, {
+        completed: true,
+      });
+      e.target.classList.toggle("completed");
+      console.log(response);
+    },
+
+    formatDate(isoString) {
+      const daysOfWeek = [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ];
+      const date = new Date(isoString);
+      const day = date.getDay(); // index
+      return daysOfWeek[day];
+    },
   },
 };
 </script>
 
 <style>
+.header {
+  display: flex;
+  align-items: center;
+}
+
 h3 {
   text-transform: uppercase;
+  margin: 0;
+}
+
+.task-length {
+  font-weight: 600;
 }
 
 .task-row {
@@ -142,6 +192,11 @@ h3 {
   box-shadow: 0 4px 2px -2px gray;
   font-size: 0.8em;
   max-width: 40vw;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: scale(1.1);
 }
 
 .new-task-btn {
@@ -176,6 +231,7 @@ ul {
   list-style: none;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 7px;
   margin: 0;
   padding: 0;
@@ -193,5 +249,16 @@ ul {
   padding-left: 10px;
   font-size: 0.8em;
   cursor: pointer;
+}
+
+.completed {
+  cursor: default;
+  pointer-events: none;
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.completed:hover {
+  transform: scale(1);
 }
 </style>

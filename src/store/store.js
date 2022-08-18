@@ -21,14 +21,16 @@ const store = createStore({
     },
   },
   actions: {
-    loginUser({ commit }, formData) {
-      axios
+    async loginUser({ commit }, formData) {
+      await axios
         .post("auth/login", formData)
         .then((response) => {
           if (response.status === 200) {
+            console.log("this runs first");
             localStorage.setItem("jwtToken", response.data.token);
             commit("setCurrentUser", response.data.user);
             commit("setAuthenticated", response.data.token);
+            console.log(response.data.user);
           } else {
             console.log(response.data);
           }

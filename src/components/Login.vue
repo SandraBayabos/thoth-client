@@ -39,12 +39,15 @@ export default {
     };
   },
   methods: {
-    login: function handleSubmit() {
+    login: function () {
       let email = this.email;
       let password = this.password;
       this.$store
         .dispatch("loginUser", { email, password })
-        .then(() => this.$router.push("/home"))
+        .then(() => {
+          console.log("this runs second");
+          this.$router.push("/home");
+        })
         .catch((err) => console.log(err));
     },
   },

@@ -95,6 +95,9 @@ export default {
     loggedIn: function () {
       return this.$store.getters.loggedIn;
     },
+    currentUser: () => {
+      return this.$store.state.currentUser;
+    },
   },
   async mounted() {
     console.log(localStorage.getItem("jwtToken"));

@@ -2,7 +2,11 @@
   <div class="body pt-3">
     <div class="header">
       <h3>Account Details:</h3>
-      <span class="task-length">| {{ tasks.length }} Tasks</span>
+      <span class="user-email px-2"> {{ user.email }}</span>
+      <span class="task-length"
+        > |
+        {{ tasks.length }} Tasks</span
+      >
     </div>
 
     <div v-for="task in this.tasks" v-bind:key="task.id">
@@ -95,15 +99,16 @@ export default {
     loggedIn: function () {
       return this.$store.getters.loggedIn;
     },
-    currentUser: () => {
+    user: function () {
       return this.$store.state.currentUser;
     },
   },
   async mounted() {
-    console.log(localStorage.getItem("jwtToken"));
+    // console.log(this.$store.state.currentUser);
+    console.log(this.user)
     this.showModal = false;
     if (this.loggedIn) {
-      await axios
+     await axios
         .get("task/")
         .then((response) => {
           this.tasks = response.data.data;
@@ -183,11 +188,17 @@ export default {
 }
 
 h3 {
+  font-size: 1.5em;
+  font-weight: 700;
   text-transform: uppercase;
   margin: 0;
 }
 
 .task-length {
+  font-weight: 600;
+}
+
+.user-email {
   font-weight: 600;
 }
 

@@ -2,7 +2,7 @@
   <div id="green-bg"></div>
   <div class="form-container">
     <div id="login-form" class="shadow-sm">
-      <form @submit.prevent="handleSubmit">
+      <form @submit.prevent="login">
         <div class="form-group">
           <label for="email">Email</label>
           <input
@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: "LoginForm",
   data() {
@@ -40,14 +39,13 @@ export default {
     };
   },
   methods: {
-    async handleSubmit() {
-      const response = await axios.post("auth/login", {
-        email: this.email,
-        password: this.password,
-      });
-
-      localStorage.setItem("jwtToken", response.data.token);
-      this.$router.push("/home");
+    login: function handleSubmit() {
+      let email = this.email;
+      let password = this.password;
+      this.$store
+        .dispatch("loginUser", { email, password })
+        .then(() => this.$router.push("/home"))
+        .catch((err) => console.log(err));
     },
   },
 };

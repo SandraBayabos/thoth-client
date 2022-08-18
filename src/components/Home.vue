@@ -91,26 +91,25 @@ export default {
       showModal: false,
     };
   },
-  async created() {
+  computed: {
+    loggedIn: function () {
+      return this.$store.getters.loggedIn;
+    },
+  },
+  async mounted() {
+    console.log(localStorage.getItem("jwtToken"));
     this.showModal = false;
-    await axios
-      .get("auth/auto_login", {})
-      .then((response) => {
-        const userId = response.data.user;
-        console.log(userId);
-        axios
-          .get("task/")
-          .then((response) => {
-            this.tasks = response.data.data;
-            console.log(response.data.data);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (this.loggedIn) {
+      await axios
+        .get("task/")
+        .then((response) => {
+          this.tasks = response.data.data;
+          console.log(response.data.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   },
   setup() {
     const tags = ref([]);
@@ -141,9 +140,14 @@ export default {
       this.showModal = false;
 
       this.tasks = [response.data.task, ...this.tasks];
+
+      this.name.value = "";
+      this.dueDate.value = "";
+      this.tasks = [];
     },
     async handleStatus(e) {
       const id = e.target.id;
+      console.log({ id });
       const response = await axios.put(`/task/update/${id}`, {
         completed: true,
       });
@@ -222,11 +226,12 @@ h3 {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 500px;
-  height: 300px;
+  max-height: 300px;
   border-radius: 10px;
   background-color: white;
   box-shadow: 0 4px 2px -2px gray;
   padding: 20px;
+  overflow-y: scroll;
 }
 
 .form-header {

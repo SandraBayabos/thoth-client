@@ -1,12 +1,24 @@
 <template>
   <div id="navbar">
-    <button class="logout-btn">Logout</button>
+    <button @click="logout" class="logout-btn">Logout</button>
   </div>
 </template>
 
 <script>
 export default {
   name: "NavBar",
+  computed: {
+    loggedIn: function () {
+      return this.$store.getters.loggedIn;
+    },
+  },
+  methods: {
+    logout: function () {
+      this.$store.dispatch("logout").then(() => {
+        this.$router.push("/login");
+      });
+    },
+  },
 };
 </script>
 
@@ -29,5 +41,6 @@ button {
   font-weight: 600;
   color: rgb(237, 238, 223);
   background-color: rgb(230, 114, 106);
+  margin-top: 20px;
 }
 </style>

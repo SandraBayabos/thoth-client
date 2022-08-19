@@ -13,7 +13,12 @@ export default {
     NavBar,
   },
   mounted() {
-    this.$router.push("/register")
+    const user = this.$store.state.currentUser;
+    if (user) {
+      this.$router.push("/login");
+    } else {
+      this.$router.push("/register");
+    }
   },
 };
 </script>

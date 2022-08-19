@@ -144,7 +144,8 @@ export default {
         due_date: this.dueDate,
         tags: this.tags,
       });
-      console.log(response);
+      // console.log(response);
+      // formatDate(response.data.task.due_date)
       this.showModal = false;
 
       this.tasks = [response.data.task, ...this.tasks];

@@ -12,6 +12,9 @@ export default {
   components: {
     NavBar,
   },
+  mounted() {
+    this.$router.push("/register")
+  },
 };
 </script>
 
